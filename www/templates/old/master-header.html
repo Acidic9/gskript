@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>GSkript - GMod Market Place</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Google Fonts -->
+		<link href="https://fonts.googleapis.com/css?family=Cabin|Raleway|Titillium+Web|Open+Sans" rel="stylesheet">
+
+		<!-- Iconic Font -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
+		<!-- Stylesheets -->
+		<link href="/css/global.css" rel="stylesheet">
+		<link href="/css/jquery-confirm.min.css" rel="stylesheet">
+		{{ range .css }}
+		<link href="{{ . }}" rel="stylesheet">
+		{{ end }}
+
+		<!-- jQuery -->
+		<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+
+		<!-- Font Awesome -->
+		<script src="https://use.fontawesome.com/caf305d143.js"></script>
+
+		<!-- Custom Scroll Bar -->
+		<link rel="stylesheet" href="/css/jquery.mCustomScrollbar.min.css" type="text/css">
+
+		<!-- Custom Alert -->
+		<link rel="stylesheet" href="/css/jquery-confirm.min.css" type="text/css">
+
+	</head>
+	<body>
+		<div class="loading-overlay">
+			<i class="fa fa-spinner" aria-hidden="true"></i>
+		</div>
+
+		<div id="menu-nav">
+			<a href="/{{ if .steamid }}profile/{{ .steamid }}{{ end }}">
+				<div id="nav-logo"{{ if .steamid }} style="background-image: url('{{ .avatarMed }}') !important; -webkit-box-shadow: 0px 0px 2px 0px rgba(255,255,255,1); -moz-box-shadow: 0px 0px 2px 0px rgba(255,255,255,1); box-shadow: 0px 0px 2px 0px rgba(255,255,255,1);"{{ end }}></div>
+			</a>
+			<a class="nav-item{{ if .isHomePage }} active{{ end }}" href="/">
+				<div>
+					<span class="nav-img" style="background-image: url('/img/nav/code.png');"></span>
+					<br><span class="nav-label">Scripts</span>
+				</div>
+			</a>
+
+			<a class="nav-item{{ if eq .page "/jobs" }} active{{ end }}" href="/jobs" disabled>
+				<div>
+					<span class="nav-img" style="background-image: url('/img/nav/hire.png');"></span>
+					<br><span class="nav-label">Jobs</span>
+				</div>
+			</a>
+
+			<a class="nav-item{{ if eq .page "/dashboard" }} active{{ end }}" href="/dashboard" disabled>
+				<div>
+					<span class="nav-img" style="background-image: url('/img/nav/speedometer.png');"></span>
+					<br><span class="nav-label">Dashboard</span>
+				</div>
+			</a>
+
+			<a class="nav-item{{ if eq .page "/upload" }} active{{ end }}" href="/upload" disabled>
+				<div>
+					<span class="nav-img" style="background-image: url('/img/nav/upload.png');"></span>
+					<br><span class="nav-label">Upload</span>
+				</div>
+			</a>
+
+			{{ if .steamid }}
+				<a class="nav-item" href="/logout">
+					<div>
+						<span class="nav-img" style="background-image: url('/img/nav/logout.png');"></span>
+						<br><span class="nav-label">Logout</span>
+					</div>
+				</a>
+			{{ else }}
+				<a class="nav-item" href="/login">
+					<div>
+						<i class="nav-img zmdi zmdi-steam"></i>
+						<br><span class="nav-label">Login</span>
+					</div>
+				</a>
+			{{ end }}
+		</div>
+
+		<div class="container">
+<!--	</div>
+		<script type="text/javascript" src="js/global.js"></script>
+	</body>
+</html>-->

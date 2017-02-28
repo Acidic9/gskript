@@ -1,0 +1,93 @@
+{{ define "scripts" }}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{{ template "header" . }}
+		<link href="/css/scripts.css" rel="stylesheet">
+	</head>
+	<body>
+		{{ template "nav" . }}
+
+		<div class="container">
+			<div class="content-header">
+				<h2 class="page-title">Scripts</h2>
+				<form style="float: left;">
+					<input type="text" name="search" value="{{ .searchText }}" placeholder="Search Scripts">
+					<select name="sort">
+						<option value="new"{{ if eq .sortBy 0 }} selected="selected"{{ end }}>Newest First</option>
+						<option value="cheap"{{ if eq .sortBy 1 }} selected="selected"{{ end }}>Price - Lowest to Highest</option>
+						<option value="expensive"{{ if eq .sortBy 2 }} selected="selected"{{ end }}>Price - Highest to Lowest</option>
+						<option value="ratings"{{ if eq .sortBy 3 }} selected="selected"{{ end }}>Top Rated</option>
+						<!--<option value="downloads">Most Purchased</option>-->
+					</select>
+					<input type="submit" value="Search">
+				</form>
+
+				<div class="page-nav">
+					{{ $pageNum := .pageNum }}
+					{{ $filters := .filters }}
+					{{ range .pageList }}
+						{{ $pageLink := . }}
+						{{ $linkURL := index . 0 }}
+						{{ $linkValue := index . 1 }}
+						{{ if eq $linkValue "<" }}
+							<a href="/scripts/{{ $linkURL }}{{ $filters }}" class="page-nav-item">
+								<i class="zmdi zmdi-chevron-left"></i>
+							</a>
+						{{ else if eq $linkValue ">" }}
+							<a href="/scripts/{{ $linkURL }}{{ $filters }}" class="page-nav-item">
+								<i class="zmdi zmdi-chevron-right"></i>
+							</a>
+						{{ else if eq $linkValue "..." }}
+							<div class="page-nav-item">...</div>
+						{{ else }}
+							<a href="/scripts/{{ $linkURL }}{{ $filters }}" class="page-nav-item{{ if eq $linkURL $pageNum }} current-page{{ end }}">{{ $linkValue }}</a>
+						{{ end }}
+					{{ end }}
+				</div>
+
+				<div class="clear"></div>
+			</div>
+
+			<div class="script-list">
+				{{ $scriptCount := len .scripts }}
+				{{ if eq $scriptCount 0 }}
+					No scripts were found.
+				{{ end }}
+				{{ range .scripts }}
+					<a href="{{ .Link }}" title="{{ .Description }}">
+						<div class="script-box">
+							<img src="/img/scripts/{{ .ID }}/banner_small.jpg" class="script-small-banner" onerror="if(this.src!='/img/scripts/{{ .ID }}_small.jpg')this.src='/img/banner_not_found_small.jpg';">
+							<a href="/profile/{{ .SteamID }}">
+								<img src="{{ .AvatarMedium }}" class="script-owner-img" title="{{ .PersonaName }}">
+							</a>
+							<a href="{{ .Link }}">
+								<span class="script-name">{{ .Name }}</span>
+								<span class="script-price">${{ .DiscountPrice }}</span>
+								{{ if ne .DiscountPrice .Price }}
+									<span class="script-old-price">${{ .Price }}</span>
+								{{ end }}
+								<span class="script-ratings">
+								<span class="vote-count">({{ .TotalVotes }})</span>
+									{{ range .Stars }}
+										{{ if eq . 1 }}
+											<i class="zmdi zmdi-star"></i>
+										{{ else if eq . 2 }}
+											<i class="zmdi zmdi-star-half"></i>
+										{{ else }}
+											<i class="zmdi zmdi-star-outline"></i>
+										{{ end }}
+									{{ end }}
+								</span>
+							</a>
+							<div class="clear"></div>
+						</div>
+					</a>
+				{{ end }}
+			</div>
+		</div>
+
+		{{ template "footer" . }}
+	</body>
+</html>
+{{ end }}

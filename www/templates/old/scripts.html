@@ -1,0 +1,76 @@
+<div id="content-header">
+	<h2 class="page-title">Scripts</h2>
+	<form style="float: left;">
+		<input type="text" name="search" value="{{ .searchText }}" placeholder="Search Scripts">
+		<select name="sort">
+			<option value="new"{{ if eq .orderBy 0 }} selected="selected"{{ end }}>Newest First</option>
+			<option value="cheap"{{ if eq .orderBy 1 }} selected="selected"{{ end }}>Price - Lowest to Highest</option>
+			<option value="expensive"{{ if eq .orderBy 2 }} selected="selected"{{ end }}>Price - Highest to Lowest</option>
+			<option value="ratings"{{ if eq .orderBy 3 }} selected="selected"{{ end }}>Top Rated</option>
+			<!--<option value="downloads">Most Purchased</option>-->
+		</select>
+		<input type="submit" value="Search">
+	</form>
+
+	<div class="page-nav">
+		{{ $activePage := .activePage }}
+		{{ $filters := .filters }}
+		{{ range .pageList }}
+			{{ $pageLink := . }}
+			{{ $linkURL := index . 0 }}
+			{{ $linkValue := index . 1 }}
+			{{ if eq $linkValue "<" }}
+				<a href="/scripts/{{ $linkURL }}{{ $filters }}" class="page-nav-item">
+					<i class="zmdi zmdi-chevron-left"></i>
+				</a>
+			{{ else if eq $linkValue ">" }}
+				<a href="/scripts/{{ $linkURL }}{{ $filters }}" class="page-nav-item">
+					<i class="zmdi zmdi-chevron-right"></i>
+				</a>
+			{{ else if eq $linkValue "..." }}
+				<div class="page-nav-item">...</div>
+			{{ else }}
+				<a href="/scripts/{{ $linkURL }}{{ $filters }}" class="page-nav-item{{ if eq $linkURL $activePage }} current-page{{ end }}">{{ $linkValue }}</a>
+			{{ end }}
+		{{ end }}
+	</div>
+
+	<div class="clear"></div>
+</div>
+
+<div class="script-list">
+	{{ $scriptCount := len .scripts }}
+	{{ if eq $scriptCount 0 }}
+		No scripts were found.
+	{{ end }}
+	{{ range .scripts }}
+		<a href="/script/{{ .ID }}">
+			<div class="script-box">
+				<img src="/img/scripts/{{ .UUID }}_small.jpg" class="script-small-banner" onerror="if(this.src!='/img/scripts/{{ .UUID }}_small.jpg')this.src='/img/banner_not_found_small.jpg';">
+				<a href="/profile/{{ .SteamID }}">
+					<img src="{{ .AvatarURLMedium }}" class="script-owner-img" title="{{ .DisplayName }}">
+				</a>
+				<a href="/script/{{ .ID }}">
+					<span class="script-name">{{ .Name }}</span>
+					<span class="script-price">${{ .NewPrice }}</span>
+					{{ if gt .Discount 0.00 }}
+						<span class="script-old-price">${{ .Price }}</span>
+					{{ end }}
+					<span class="script-ratings">
+					<span class="vote-count">({{ .TotalVotes }})</span>
+						{{ range .StarRatings }}
+							{{ if eq . 1 }}
+								<i class="zmdi zmdi-star"></i>
+							{{ else if eq . 2 }}
+								<i class="zmdi zmdi-star-half"></i>
+							{{ else }}
+								<i class="zmdi zmdi-star-outline"></i>
+							{{ end }}
+						{{ end }}
+					</span>
+				</a>
+				<div class="clear"></div>
+			</div>
+		</a>
+	{{ end }}
+</div>

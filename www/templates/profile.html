@@ -1,0 +1,69 @@
+{{ define "profile" }}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{{ template "header" . }}
+		<link href="/css/profile.css" rel="stylesheet">
+		<link href="/css/flags.css" rel="stylesheet">
+		<link href="/css/simplemde.min.css" rel="stylesheet">
+	</head>
+	<body>
+		{{ template "nav" . }}
+		<div class="container">
+			<div class="content-header">
+				{{ if .profileSteam64 }}
+					<a href="http://steamcommunity.com/profiles/{{ .profileSteam64 }}" target="_blank">
+						<div class="player-avatar" style="background-image: url('{{ .profileAvatarFull }}"></div>
+					</a>
+
+					<h1 class="profile-names">
+						<span class="profile-persona-name">
+							{{- .profilePersonaName -}}
+							{{- if .isOwnerTEMPTODISABLE -}}
+							<span style="font-weight: bold; color: #364157;background-color: rgba(0,0,0,0.1); font-size: 0.4em;">[GSkript Owner]</span>
+							{{- end -}}
+						</span>
+
+						<span class="profile-steam-id">
+							{{- .profileSteam64 -}}
+						</span>
+					</h1>
+
+					<div class="profile-bio">
+						<div>
+							<span id="profile-bio">{{- .profileBiography -}}</span>
+							{{ if .ownProfile }}
+								<i class="fa fa-pencil edit-section" id="bio-edit-icon" aria-hidden="true" onclick="editBio();"></i>
+							{{ end }}
+						</div>
+					</div>
+
+					<ul class="profile-info-list">
+						<li class="profile-real-name" {{- if not .profileRealName }} style="display: none;"{{ end }}>
+							<i class="fa fa-id-badge" aria-hidden="true"></i>
+							<span>{{- .profileRealName -}}</span>
+						</li>
+
+						<li class="profile-signup-date" {{- if not .profileFirstLogin }} style="display: none;"{{ end }}>
+							<i class="fa fa-calendar" aria-hidden="true"></i>
+							<span>{{- .profileFirstLogin -}}</span>
+						</li>
+
+						<li class="profile-country" {{- if not .profileLocCountryCode }} style="display: none;"{{ end }}>
+							<span class="flag flag-{{- .profileLocCountryCode -}}"></span>
+							<span>{{- .profileLocCountryCode -}}</span>
+						</li>
+					</ul>
+				{{ else }}
+					<h3>User not found</h3>
+				{{ end }}
+			</div>
+		</div>
+
+		{{ template "footer" . }}
+		<script src="/js/markdown2html.min.js"></script>
+		<script src="/js/simplemde.min.js"></script>
+		<script src="/js/profile.js"></script>
+	</body>
+</html>
+{{ end }}

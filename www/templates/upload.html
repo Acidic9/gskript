@@ -1,0 +1,112 @@
+{{ define "upload" }}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		{{ template "header" . }}
+		<link href="/css/simplemde.min.css" rel="stylesheet">
+		<link href="/css/upload.css" rel="stylesheet">
+	</head>
+	<body>
+		{{ template "nav" . }}
+
+		<div class="container">
+			<div id="content-header">
+				<h2 class="page-title">Upload Script</h2>
+			</div>
+
+			<form id="upload-form" method="post" action="#" enctype="multipart/form-data">
+				<table>
+					<tbody>
+						<tr>
+							<th>
+								<label for="script-name">Script Name</label><br>
+							</th>
+							<td>
+								<input name="script-name" id="script-name" class="tooltip" type="text" placeholder="My Amazing GMOD Lua Addon">
+							</td>
+						</tr>
+
+						<tr class="table-spacer"></tr>
+
+						<tr>
+							<th style="vertical-align: top;">
+								<label for="script-description">Description</label><br>
+							</th>
+							<td>
+								<textarea name="script-description" id="script-description"></textarea>
+							</td>
+						</tr>
+
+						<tr>
+							<th>
+								<label for="script-price">Selling Price</label><br>
+							</th>
+							<td>
+								<input name="script-price" id="script-price" placeholder="$ 5.00">
+							</td>
+						</tr>
+
+						<tr class="table-spacer"></tr>
+
+						<tr>
+							<th>
+								<label for="script-discount">Discount Price<br><span class="info-text">(Real price)</span></label><br>
+							</th>
+							<td>
+								<input name="script-discount" id="script-discount" placeholder="$ 3.00">
+							</td>
+						</tr>
+
+						<tr>
+							<th>
+							</th>
+							<td>
+								<p class="info-text" title="Based on PayPal's 3.9% + $0.30 tax">You receive $<span id="user-income">0.00</span>, PayPal receives $<span id="paypal-income">0.00</span>.</p>
+							</td>
+						</tr>
+
+						<tr class="table-spacer"></tr>
+
+						<tr>
+							<th>
+								<label>Banner Image<br><span class="info-text">(Resized to 1024px x 256px)</span></label><br>
+							</th>
+							<td>
+								<input type="file" accept="image/*" name="script-banner" id="script-banner">
+								<label for="script-banner" title="Upload Image"><i class="zmdi zmdi-upload"></i></label>
+								<span id="banner-name" class="info-text file-name">No Image Selected</span>
+							</td>
+						</tr>
+
+						<tr class="table-spacer"></tr>
+
+						<tr>
+							<th>
+								<label>Script ZIP File<br><span class="info-text">(Must be a .ZIP file)</span></label><br>
+							</th>
+							<td>
+								<input type="file" accept="application/zip,application/octet-stream,application/x-zip,application/x-zip-compressed" name="script-zip" id="script-zip">
+								<label for="script-zip" title="Upload Script Files (.ZIP)"><i class="zmdi zmdi-upload"></i></label>
+								<span id="zip-name" class="info-text file-name">No File Selected</span>
+							</td>
+						</tr>
+
+						<tr class="table-spacer"></tr>
+					</tbody>
+				</table>
+
+				<input type="submit" value="Upload Script">
+				<button id="preview-script">Preview</button>
+			</form>
+
+			<span id="steamid" style="display:none;">{{ .steamid }}</span>
+			<span id="profileImg" style="display:none;">{{ .avatarMed }}</span>
+		</div>
+
+		{{ template "footer" . }}
+		<script src="/js/autoNumeric-min.js"></script>
+		<script src="/js/simplemde.min.js"></script>
+		<script src="/js/upload.js"></script>
+	</body>
+</html>
+{{ end }}

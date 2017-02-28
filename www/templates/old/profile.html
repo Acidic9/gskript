@@ -1,0 +1,80 @@
+<div id="content-header">
+	{{ if .error }}
+		<h3>{{ .error }}</h3>
+	{{ else if .profileSteamID }}
+		<a href="http://steamcommunity.com/profiles/{{ .profileSteamID }}" target="_blank">
+			<div class="player-avatar" style="background-image: url('{{ .profileAvatarFull }}"></div>
+		</a>
+		<h1 class="page-title">{{ .profileDisplayName }}
+		{{ if .isOwner }}
+			<span style="font-weight: bold; color: #364157;background-color: rgba(0,0,0,0.1);">[GSkript Owner]</span>
+		{{ end }}</h1>
+		<table class="player-info">
+			<tbody>
+				<tr id="profile-real-name" {{ if not .profileRealName }} style="display: none;"{{ end }}>
+					<th>Real Name:</th>
+					<td>{{ .profileRealName }}</td>
+				</tr>
+
+				<tr id="profile-email"{{ if not .profileEmail }} style="display: none;"{{ end }}>
+					<th>Email:</th>
+					<td><a href="MAILTO:{{ .profileEmail }}">{{ .profileEmail }}</a></td>
+				</tr>
+
+				<tr id="profile-badge"{{ if not .profileBadge }} style="display: none;"{{ end }}>
+					<th>Badge:</th>
+					<td>{{ .profileBadge }}</td>
+				</tr>
+
+				<tr id="profile-signup-date"{{ if not .profileSignupDate }} style="display: none;"{{ end }}>
+					<th>Joined:</th>
+					<td>{{ .profileSignupDate }}</td>
+				</tr>
+
+				<tr id="profile-country"{{ if not .profileCountry }} style="display: none;"{{ end }}>
+					<th>Country:</th>
+					<td><span class="flag flag-{{ .profileCountry }}"></span>{{ .profileCountry }}</td>
+				</tr>
+
+				<tr id="profile-website"{{ if not .profileWebsite }} style="display: none;"{{ end }}>
+					<th>Website:</th>
+					<td><a href="{{ .website }}">{{ .profileWebsite }}</a></td>
+				</tr>
+			</tbody>
+		</table>		
+	{{ else }}
+		<h3>User not found</h3>
+	{{ end }}
+
+	{{ if eq .steamid .profileSteamID }}
+		<button class="edit-profile" id="cancel-editing">Cancel</button>
+		<button class="edit-profile" id="save-editing">Save</button>
+		<button class="edit-profile" id="edit-profile">Edit Profile</button>
+		<div class="spinning-loader saving-profile"></div>
+	{{ end }}
+	<div class="clear"></div>
+</div>
+
+{{ if .profileSteamID }}
+	<div class="profile-tabs">
+		<button class="profile-tab active-tab">
+			Biography
+		</button>
+
+		<button class="profile-tab">
+			Scripts
+		</button>
+
+		<button class="profile-tab">
+			More Coming Soon
+		</button>
+	</div>
+
+	<div class="clear"></div>
+
+	<div id="bio-edit">
+		<textarea id="editor"></textarea>
+	</div>
+
+	<p id="bio-text">{{ if .profileBio }}{{ .profileBio }}{{ else }}This user has no biography{{ end }}</p>
+{{ end }}
